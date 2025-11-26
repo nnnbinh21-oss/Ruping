@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愚公移山 - 视频观看与测试</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 5px solid #e67e22;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .video-section {
+            flex: 1;
+            min-width: 400px;
+            padding: 20px;
+        }
+        
+        .video-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        video {
+            width: 100%;
+            display: block;
+        }
+        
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 6px;
+            background: #555;
+            border-radius: 3px;
+            margin: 0 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #e67e22;
+            border-radius: 3px;
+            width: 0%;
+        }
+        
+        .time {
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .video-info {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .quiz-section {
+            flex: 1;
+            min-width: 400px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-left: 10px;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .quiz-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e67e22;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .question:hover {
+            transform: translateY(-5px);
+        }
+        
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f1f2f6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background: #dfe4ea;
+            transform: translateX(5px);
+        }
+        
+        .option input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #e67e22, #e74c3c);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(231, 126, 34, 0.3);
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(to right, #d35400, #c0392b);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 126, 34, 0.4);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+        
+        .correct-answer {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .wrong-answer {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .progress-bar-result {
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-result {
+            height: 100%;
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .teacher-name {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .quiz-section {
+                margin-left: 0;
+                margin-top: 20px;
+                max-height: none;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>愚公移山</h1>
+            <p class="subtitle">观看视频后完成测试题目</p>
+        </header>
+        
+        <div class="content">
+            <div class="video-section">
+                <div class="video-container">
+                    <video id="myVideo">
+                        <!-- 请将视频文件放在与HTML文件相同的目录下，并确保文件名为"愚公移山_.MOV" -->
+                        <source src="愚公移山_.MOV" type="video/mp4">
+                        您的浏览器不支持HTML5视频播放，请使用现代浏览器如Chrome、Firefox或Edge。
+                    </video>
+                    <div class="video-controls">
+                        <button class="control-btn" id="playPauseBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="progress-container" id="progressContainer">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="time" id="timeDisplay">0:00 / 0:00</div>
+                        <button class="control-btn" id="muteBtn">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <button class="control-btn" id="fullscreenBtn">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="video-info">
+                    <h3>视频简介</h3>
+                    <p>本视频讲述了愚公移山的经典故事。九十多岁的愚公因家门被太行、王屋两座大山阻挡，决定带领家人移山。面对智叟的嘲笑，愚公坚信子子孙孙不懈努力，终能成功。最终天帝被其精神感动，派神仙移走了大山。</p>
+                    <p>请认真观看视频内容，然后回答右侧的问题。</p>
+                </div>
+            </div>
+            
+            <div class="quiz-section">
+                <h2 class="quiz-title">阅读理解测试 (共10题)</h2>
+                
+                <div class="question">
+                    <div class="question-title">1. 愚公为什么要移走门前的两座大山？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="A">
+                            A. 因为山挡住了他家的出路
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="B">
+                            B. 因为山上有宝藏
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="C">
+                            C. 因为山太高挡住了阳光
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="D">
+                            D. 因为山上有猛兽
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">2. 愚公的家人最初对他移山的想法有什么反应？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="A">
+                            A. 所有人都非常支持
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="B">
+                            B. 只有孩子们支持，其他人很惊讶
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="C">
+                            C. 所有人都反对
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="D">
+                            D. 所有人都很惊讶但都支持
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">3. 愚公是如何回应邻居智叟的质疑的？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="A">
+                            A. 承认自己确实太傻了
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="B">
+                            B. 说山总有一天会被风雨侵蚀
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="C">
+                            C. 说子子孙孙无穷无尽，山不会再长高
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="D">
+                            D. 说神仙会来帮忙
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">4. 故事的最后，两座大山是如何被移走的？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="A">
+                            A. 愚公和家人最终挖平了山
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="B">
+                            B. 山自己消失了
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="C">
+                            C. 神仙被愚公的精神感动，移走了山
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="D">
+                            D. 智叟帮助愚公移走了山
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">5. 愚公大约多少岁？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="A">
+                            A. 七十多岁
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="B">
+                            B. 八十多岁
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="C">
+                            C. 九十多岁
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="D">
+                            D. 一百多岁
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">6. 两座大山的名字是什么？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="A">
+                            A. 太行山和王屋山
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="B">
+                            B. 泰山和华山
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="C">
+                            C. 黄山和庐山
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="D">
+                            D. 峨眉山和武当山
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">7. 邻居智叟对愚公移山的态度是什么？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="A">
+                            A. 支持和鼓励
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="B">
+                            B. 嘲笑和质疑
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="C">
+                            C. 漠不关心
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="D">
+                            D. 主动参与
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">8. 愚公认为山不会再长高，而他的子孙会怎样？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="A">
+                            A. 越来越少
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="B">
+                            B. 无穷无尽
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="C">
+                            C. 会移居他处
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="D">
+                            D. 会放弃移山
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">9. 天帝为什么派神仙移走大山？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q9" value="A">
+                            A. 被愚公的毅力感动
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="B">
+                            B. 觉得大山碍事
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="C">
+                            C. 智叟的请求
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="D">
+                            D. 愚公的祈祷
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">10. 这个故事告诉我们什么道理？</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="A">
+                            A. 只要有恒心和毅力，就能克服困难
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="B">
+                            B. 做事情要量力而行
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="C">
+                            C. 应该等待神仙帮助
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="D">
+                            D. 老年人不应该做大事
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" id="submit">提交答案</button>
+                
+                <div class="result" id="result">
+                    <h3>测试结果</h3>
+                    <div class="progress-bar-result">
+                        <div class="progress-result" id="progressResult"></div>
+                    </div>
+                    <div class="score" id="score">得分：0/10</div>
+                    <div id="feedback"></div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 愚公移山教育测试 | 设计用于教学目的</p>
+            <p class="teacher-name">出题人：平老师</p>
+        </footer>
+    </div>
+
+    <script>
+        // 视频播放控制
+        const video = document.getElementById('myVideo');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const muteBtn = document.getElementById('muteBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        
+        // 播放/暂停按钮
+        playPauseBtn.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                video.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        // 更新进度条
+        video.addEventListener('timeupdate', function() {
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // 更新时间显示
+            const currentMinutes = Math.floor(video.currentTime / 60);
+            const currentSeconds = Math.floor(video.currentTime % 60);
+            const durationMinutes = Math.floor(video.duration / 60);
+            const durationSeconds = Math.floor(video.duration % 60);
+            
+            timeDisplay.textContent = 
+                `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} / ${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
+        });
+        
+        // 点击进度条跳转
+        progressContainer.addEventListener('click', function(e) {
+            const pos = (e.pageX - this.offsetLeft) / this.offsetWidth;
+            video.currentTime = pos * video.duration;
+        });
+        
+        // 静音按钮
+        muteBtn.addEventListener('click', function() {
+            video.muted = !video.muted;
+            muteBtn.innerHTML = video.muted ? 
+                '<i class="fas fa-volume-mute"></i>' : 
+                '<i class="fas fa-volume-up"></i>';
+        });
+        
+        // 全屏按钮
+        fullscreenBtn.addEventListener('click', function() {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.mozRequestFullScreen) {
+                video.mozRequestFullScreen();
+            }
+        });
+        
+        // 视频结束时重置播放按钮
+        video.addEventListener('ended', function() {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+        
+        // 测试提交功能
+        document.getElementById('submit').addEventListener('click', function() {
+            // 正确答案
+            const correctAnswers = {
+                q1: 'A',
+                q2: 'B',
+                q3: 'C',
+                q4: 'C',
+                q5: 'C',
+                q6: 'A',
+                q7: 'B',
+                q8: 'B',
+                q9: 'A',
+                q10: 'A'
+            };
+            
+            // 用户答案
+            const userAnswers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value,
+                q3: document.querySelector('input[name="q3"]:checked')?.value,
+                q4: document.querySelector('input[name="q4"]:checked')?.value,
+                q5: document.querySelector('input[name="q5"]:checked')?.value,
+                q6: document.querySelector('input[name="q6"]:checked')?.value,
+                q7: document.querySelector('input[name="q7"]:checked')?.value,
+                q8: document.querySelector('input[name="q8"]:checked')?.value,
+                q9: document.querySelector('input[name="q9"]:checked')?.value,
+                q10: document.querySelector('input[name="q10"]:checked')?.value
+            };
+            
+            // 计算得分
+            let score = 0;
+            let feedbackHTML = '';
+            
+            for (const question in correctAnswers) {
+                if (userAnswers[question] === correctAnswers[question]) {
+                    score++;
+                    feedbackHTML += `<p class="correct-answer">第${question.substring(1)}题：回答正确！</p>`;
+                } else {
+                    feedbackHTML += `<p class="wrong-answer">第${question.substring(1)}题：回答错误。正确答案是：${correctAnswers[question]}</p>`;
+                }
+            }
+            
+            // 显示结果
+            const resultDiv = document.getElementById('result');
+            const scoreDiv = document.getElementById('score');
+            const feedbackDiv = document.getElementById('feedback');
+            const progressResult = document.getElementById('progressResult');
+            
+            scoreDiv.textContent = `得分：${score}/10`;
+            feedbackDiv.innerHTML = feedbackHTML;
+            progressResult.style.width = `${(score/10)*100}%`;
+            
+            resultDiv.style.display = 'block';
+            
+            // 滚动到结果区域
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
